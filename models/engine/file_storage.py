@@ -1,8 +1,15 @@
 #!/usr/bin/python3
 """represente storage class"""
 
-from json import dump
 from json import load
+from json import dump
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
+
 
 class FileStorage:
     """Define a class"""
@@ -29,11 +36,12 @@ class FileStorage:
         my_classes = {'BaseModel': BaseModel}
         try:
             with open(FileStorage.__file_path, encoding="UTF-8") as f:
-                des = load(f)
-                for obj_id, obj_dict in des.items():
-                    clsname = obj_dict.get('__class__')
-                    if clsname and clsname in my_classes:
-                        class_obj = my_classes[clsname]
-                        self.new(class_obj(**obj_dict))
+                des =  load(f)
+                if des:
+                    for obj_id, obj_dict in des.items():
+                        clsname = obj_dict.get('__class__')
+                        if clsname and clsname in my_classes:
+                            class_obj = my_classes[clsname]
+                            self.new(class_obj(**obj_dict))
         except FileNotFoundError:
             pass
