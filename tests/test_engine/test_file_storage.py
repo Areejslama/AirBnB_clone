@@ -34,6 +34,7 @@ class TestStorage(unittest.TestCase):
         self.assertIsNotNone(models.engine.file_storage.FileStorage().new)
         self.assertIn("BaseModel." + b.id, storage.all().keys())
         self.assertIn(b, storage.all().values())
+    
     def test_save(self):
         """check if save method is working"""
         b = BaseModel()
@@ -42,11 +43,10 @@ class TestStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             save_t = f.read()
             self.assertIn("BaseModel." + b.id, save_t)
-        self.assertIsNotNone(models.engine.file_storage.FileStorage().save)
-
+            self.assertIsNotNone(models.engine.file_storage.FileStorage().save)
+    
     def test_reload(self):
         """check if reload method is working"""
-
         self.assertIsNotNone(models.engine.file_storage.FileStorage().reload)
 
     if __name__ == '__main__':
