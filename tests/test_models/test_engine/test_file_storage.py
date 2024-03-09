@@ -5,6 +5,7 @@ test for FileStorage
 import os
 import unittest
 import models
+import pep8
 from models import storage
 from models.engine.file_storage import FileStorage
 from models.base_model import BaseModel
@@ -83,6 +84,13 @@ class Test_Storage(unittest.TestCase):
         self.assertIsNotNone(o)
         self.assertEqual(type(o), dict)
         self.assertIs(o, storage._FileStorage__objects)
+
+    def test_pep8_storage(self):
+        """Test that we conform to PEP8."""
+        style = pep8.StyleGuide(quiet=True)
+        res = style.check_files(['models/engine/file_storage.py'])
+        self.assertEqual(res.total_errors, 0,
+                "Found code style errors (and warnings).")
 
     if __name__ == '__main__':
         unittest.main()
