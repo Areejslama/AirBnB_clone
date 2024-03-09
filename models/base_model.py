@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Represent a base class"""
+""" Represent a base class """
 
 from datetime import datetime
 import uuid
@@ -7,10 +7,10 @@ import models
 
 
 class BaseModel:
-    """Define a basemodel of classes"""
+    """ Define a basemodel of classes """
 
     def __init__(self, *args, **kwargs):
-        """initialize args and kwargs"""
+        """ initialize args and kwargs """
         if kwargs:
             kwargs.pop("__class__", None)
             for key, value in kwargs.items():
@@ -26,12 +26,12 @@ class BaseModel:
             models.storage.new(self)
 
     def save(self):
-        """method to update an instance"""
+        """ method to update an instance """
         self.updated_at = datetime.now()
         models.storage.save()
 
     def to_dict(self):
-        """method to return a dictionary"""
+        """ method to return a dictionary """
         my_dict = {}
         for key, value in self.__dict__.items():
             if isinstance(value, datetime):
@@ -42,6 +42,6 @@ class BaseModel:
         return my_dict
 
     def __str__(self):
-        """method to return a string representation of methods"""
+        """ method to return a string representation of methods """
         name = self.__class__.__name__
         return "[{}] ({}) {}".format(name, self.id, self.__dict__)

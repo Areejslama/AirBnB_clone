@@ -40,7 +40,7 @@ class Test_BaseModel(unittest.TestCase):
         base_model.save()
         self.assertNotEqual(base_model.created_at, base_model.updated_at)
 
-    def test_BaseModel_dict_keys(self):
+    def test_dict(self):
         """ test to_dict method correct keys """
         base_model = BaseModel()
         data = base_model.to_dict()
@@ -51,9 +51,15 @@ class Test_BaseModel(unittest.TestCase):
         self.assertIn("__class__", data)
 
     def test_BaseModel_str(self):
-        """ test str method. assertEqual: a and b are equal"""
+        """ test str method """
         base_model = BaseModel()
         self.assertEqual(type(str(base_model)), str)
 
+    def test_type(self):
+        """ test to_dict if contains added attributes """
+        base_model = BaseModel()
+        data = base_model.to_dict()
+        self.assertEqual(type(data), dict)
+    
     if __name__ == "__main__":
         unittest.main()
