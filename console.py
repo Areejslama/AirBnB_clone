@@ -15,7 +15,8 @@ from models.review import Review
 class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
 
-    my_classes = ['BaseModel', 'user']
+    my_classes = ['BaseModel', 'user',  'State',  'City',
+            'Amenity', 'Place', 'Review']
 
     def do_EOF(self, arg):
         """Define EOF command"""
@@ -126,6 +127,25 @@ class HBNBCommand(cmd.Cmd):
             return [str(value) for key, value in obj.items() if key.startswith(an_instance)]
 
         return [str(value) for key, value in obj.items()]
+
+    def default(self, line):
+        """looks for entered commands"""
+        if '.' in l:
+            split = re.split(r'\.|\(|\)', l)
+            c_name = split[0]
+            m_name = split[1]
+
+        if c_name in self.my_classes:
+            if m_name == 'all':
+                print(self.get_obj(c_name))
+            elif m_name == 'count':
+                print(len(self.get_obj(c_name)))
+            elif m_name == 'show':
+                c_id = split[2][1:-1]
+                self.do_show(c_name + ' ' + c_id)
+            elif m_name == 'destroy':
+                c_id = split[2][1:-1]
+                self.do_destroy(c_name + ' ' + c_id)
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
