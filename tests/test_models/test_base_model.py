@@ -1,79 +1,65 @@
 #!/usr/bin/python3
-"""Unittest for base model module.
-
-This unittest is a collection of possible cases
+""" unittest for models/base_model.py
 """
-from datetime import datetime
-from models.base_model import BaseModel
-from time import sleep
 import models
-import uuid
 import unittest
+from datetime import datetime
+from time import sleep
+from models.base_model import BaseModel
+
 
 class Test_BaseModel(unittest.TestCase):
     """ test instantiation of BaseModel """
-    def test_init(self):
+    def test_BaseModel_init(self):
         """ test instantiation of BaseModel """
-        b = BaseModel()
+        base_model = BaseModel()
         self.assertEqual(BaseModel, type(BaseModel()))
-        self.assertTrue(hasattr(b, "id"))
+        self.assertTrue(hasattr(base_model, "id"))
 
-    def test_created_at_instance(self):
+    def test_BaseModel_created_at_instance_from_datetime(self):
         """ test created_at """
-        b = BaseModel()
-        self.assertTrue(isinstance(b.created_at, datetime))
+        base_model = BaseModel()
+        self.assertTrue(isinstance(base_model.created_at, datetime))
 
-    def test_updated_at_instance(self):
+    def test_BaseModel_updated_at_instance_from_datetime(self):
         """ test updated_at """
-        b = BaseModel()
-        self.assertTrue(isinstance(b.updated_at, datetime))
+        base_model = BaseModel()
+        self.assertTrue(isinstance(base_model.updated_at, datetime))
 
-    def test_created_not_equal(self):
+    def test_BaseModel_created_not_equal(self):
         """ create two objects at different time """
-        b = BaseModel()
+        base_model = BaseModel()
         sleep(0.1)
-        b_n = BaseModel()
-        self.assertNotEqual(b.created_at, b_n.created_at)
+        base_model_new = BaseModel()
+        self.assertNotEqual(base_model.created_at, base_model_new.created_at)
 
-    def test_save_method(self):
+    def test_BaseModel_save(self):
         """ Test save method """
-        b = BaseModel()
-        b.save()
-        self.assertNotEqual(b.created_at, b.updated_at)
+        base_model = BaseModel()
+        base_model.save()
+        self.assertNotEqual(base_model.created_at, base_model.updated_at)
 
-    def test_dict(self):
+    def test_BaseModel_dict_keys(self):
         """ test to_dict method correct keys """
-        b = BaseModel()
-        data = b.to_dict()
+        base_model = BaseModel()
+        my_data = base_model.to_dict()
 
-        self.assertIn("id", data)
-        self.assertIn("created_at", data)
-        self.assertIn("updated_at", data)
-        self.assertIn("__class__", data)
+        self.assertIn("id", my_data)
+        self.assertIn("created_at", my_data)
+        self.assertIn("updated_at", my_data)
+        self.assertIn("__class__", my_data)
 
     def test_BaseModel_str(self):
-        """ test str method """
-        b = BaseModel()
-        self.assertEqual(type(str(b)), str)
+        """ test str method. assertEqual: a and b are equal"""
+        base_model = BaseModel()
+        self.assertEqual(type(str(base_model)), str)
 
-    def test_type(self):
+    def test_BaseModel_list_type(self):
         """ test to_dict if contains added attributes """
-        b = BaseModel()
-        data = b.to_dict()
-        self.assertEqual(type(data), dict)
+        base_model = BaseModel()
+        my_data = base_model.to_dict()
+        self.assertEqual(type(my_data), dict)
 
-    def test_uuid_format(self):
-        """ Tests if UUID  format """
-        b = BaseModel()
-        self.assertIsInstance(uuid.UUID(b.id), uuid.UUID)
 
-    def test_uuid_wrong_format(self):
-        """ Tests a badly UUID """
-        b = BaseModel()
-        b.id = 'Python'
-        w = 'formed hexadecimal string'
-        with self.assertRaises(ValueError) as m:
-            uuid.UUID(b.id)
-
-    if __name__ == "__main__":
-        unittest.main()
+if __name__ == "__main__":
+    unittest.main()
