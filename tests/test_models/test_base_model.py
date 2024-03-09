@@ -48,3 +48,11 @@ class Test_BaseModel(unittest.TestCase):
         self.assertIn("id", data)
         self.assertIn("created_at", data)
         self.assertIn("updated_at", data)
+
+    def test_BaseModel_str(self):
+        """ test str method. assertEqual: a and b are equal"""
+        base_model = BaseModel()
+        self.assertEqual(type(str(base_model)), str)
+
+    if __name__ == "__main__":
+        unittest.main()
