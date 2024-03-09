@@ -25,7 +25,7 @@ class Test_BaseModel(unittest.TestCase):
         del cls.dummy
         try:
             os.remove("file.json")
-        except:
+        except Exception:
             pass
 
     def test_id(self):
@@ -102,4 +102,4 @@ class Test_BaseModel(unittest.TestCase):
 
 
 if __name__ == "__main__":
-        unittest.main()
+    unittest.main()
