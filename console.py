@@ -2,6 +2,7 @@
 """Represent a command interpreter"""
 import cmd
 import shlex
+import re
 from datetime import datetime
 import models
 from models.base_model import BaseModel
@@ -15,8 +16,8 @@ from models.review import Review
 class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
 
-    my_classes = ['BaseModel', 'user',  'State',  'City',
-            'Amenity', 'Place', 'Review']
+    my_classes = ['BaseModel', 'User',  'State',  'City',
+                  'Amenity', 'Place', 'Review']
 
     def do_EOF(self, arg):
         """Define EOF command"""
@@ -68,13 +69,13 @@ class HBNBCommand(cmd.Cmd):
         elif my_arg == '':
             print('** instance id missing **')
         else:
-                val = my_instance + "." + my_arg
-                my_data = models.storage.all().get(val)
-                if my_data is None:
-                    print('** No instance found **')
-                else:
-                    del models.storage.all()[val]
-                    models.storage.save()
+            val = my_instance + "." + my_arg
+            my_data = models.storage.all().get(val)
+            if my_data is None:
+                print('** No instance found **')
+            else:
+                del models.storage.all()[val]
+                models.storage.save()
 
     def do_all(self, line):
         my_instance = self.parseline(line)[0]
@@ -89,12 +90,12 @@ class HBNBCommand(cmd.Cmd):
 
     def do_count(self, arg):
         """count the number of instances of class"""
-        arg1 = parseline(arg)
-        cou= 0
-        for objs in storage.all().values():
+        arg1 = self.parseline(arg)
+        cou = 0
+        for objs in models.storage.all().values():
             if arg1[0] == objs.__class__.__name__:
                 cou += 1
-                print(cou)
+        print(cou)
 
     def do_update(self, line):
         arg = shlex.split(line)
@@ -139,22 +140,22 @@ class HBNBCommand(cmd.Cmd):
 
     def default(self, line):
         """looks for entered commands"""
-        if '.' in l:
-            split = re.split(r'\.|\(|\)', l)
+        if '.' in line:
+            split = re.split(r'\.|\(|\)', line)
             c_name = split[0]
             m_name = split[1]
 
-        if c_name in self.my_classes:
-            if m_name == 'all':
-                print(self.get_obj(c_name))
-            elif m_name == 'count':
-                print(len(self.get_obj(c_name)))
-            elif m_name == 'show':
-                c_id = split[2][1:-1]
-                self.do_show(c_name + ' ' + c_id)
-            elif m_name == 'destroy':
-                c_id = split[2][1:-1]
-                self.do_destroy(c_name + ' ' + c_id)
+            if c_name in self.my_classes:
+                if m_name == 'all':
+                    print(self.get_obj(c_name))
+                elif m_name == 'count':
+                    print(len(self.get_obj(c_name)))
+                elif m_name == 'show':
+                    c_id = split[2][1:-1]
+                    self.do_show(c_name + ' ' + c_id)
+                elif m_name == 'destroy':
+                    c_id = split[2][1:-1]
+                    self.do_destroy(c_name + ' ' + c_id)
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
