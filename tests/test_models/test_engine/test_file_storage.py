@@ -79,10 +79,10 @@ class Test_Storage(unittest.TestCase):
     def test_all(self):
         """tests if all works in File Storage"""
         storage = FileStorage()
-        obj = storage.all()
-        self.assertIsNotNone(obj)
-        self.assertEqual(type(obj), dict)
-        self.assertIs(obj, storage._FileStorage__objects)
+        o = storage.all()
+        self.assertIsNotNone(o)
+        self.assertEqual(type(o), dict)
+        self.assertIs(o, storage._FileStorage__objects)
 
     if __name__ == '__main__':
         unittest.main()

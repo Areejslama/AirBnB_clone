@@ -19,10 +19,12 @@ class FileStorage:
     def all(self):
         """Return all objects in the storage"""
         return FileStorage.__objects
+
     def new(self, obj):
         """Add a new object to the storage"""
         key = "{}.{}".format(type(obj).__name__, obj.id)
         FileStorage.__objects[key] = obj
+
     def save(self):
         """Save objects to file"""
         e_dict = {}
@@ -30,13 +32,14 @@ class FileStorage:
             e_dict[key] = value.to_dict()
         with open(FileStorage.__file_path, "w", encoding="UTF-8") as f:
             dump(e_dict, f)
+
     def reload(self):
         """Reload objects from file"""
         from models.base_model import BaseModel
         my_classes = {'BaseModel': BaseModel}
         try:
             with open(FileStorage.__file_path, encoding="UTF-8") as f:
-                des =  load(f)
+                des = load(f)
                 if des:
                     for obj_id, obj_dict in des.items():
                         clsname = obj_dict.get('__class__')
