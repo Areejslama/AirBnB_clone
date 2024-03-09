@@ -35,6 +35,7 @@ class BaseModel:
                 my_dict[key] = value.isoformat()
             else:
                 my_dict[key] = value
+                my_dict['__class__'] = type(self).__name__
         return my_dict
     def __str__(self):
         """method to return a string representaion of methods"""

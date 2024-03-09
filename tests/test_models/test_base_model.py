@@ -48,6 +48,7 @@ class Test_BaseModel(unittest.TestCase):
         self.assertIn("id", data)
         self.assertIn("created_at", data)
         self.assertIn("updated_at", data)
+        self.assertIn("__class__", data)
 
     def test_BaseModel_str(self):
         """ test str method. assertEqual: a and b are equal"""
