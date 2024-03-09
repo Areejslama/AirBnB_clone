@@ -6,11 +6,11 @@ from datetime import datetime
 import models
 from models.base_model import BaseModel
 from models.user import User
-from state import State
-from city import City
-from amenity import Amenity
-from place import Place
-from review import Review
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 
 class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
@@ -87,7 +87,6 @@ class HBNBCommand(cmd.Cmd):
             print("** Class doesn't exist **")
 
     def do_update(self, line):
-        """Updates an instance based on the class name and id by adding or updating attribute."""
         arg = shlex.split(line)
         args_s = len(arg)
         if args_s == 0:
