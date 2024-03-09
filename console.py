@@ -87,6 +87,15 @@ class HBNBCommand(cmd.Cmd):
         else:
             print("** Class doesn't exist **")
 
+    def do_count(self, arg):
+        """count the number of instances of class"""
+        arg1 = parseline(arg)
+        cou= 0
+        for objs in storage.all().values():
+            if arg1[0] == objs.__class__.__name__:
+                cou += 1
+                print(cou)
+
     def do_update(self, line):
         arg = shlex.split(line)
         args_s = len(arg)
