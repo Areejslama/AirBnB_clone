@@ -91,12 +91,10 @@ class Test_Storage(unittest.TestCase):
         res = style.check_files(['models/engine/file_storage.py'])
         self.assertEqual(res.total_errors, 0,
                 "Found code style errors (and warnings).")
-    
-    def test_pep8_FileStorage(self):
-        """Tests pep8 style"""
-        sty = pep8.StyleGuide(quiet=True)
-        p = sty.check_files(['models/engine/file_storage.py'])
-        self.assertEqual(p.total_errors, 0, "fix pep8")
+
+    def test_save_arg(self):
+        with self.assertRaises(TypeError):
+            models.storage.save(None)
 
     if __name__ == '__main__':
         unittest.main()
