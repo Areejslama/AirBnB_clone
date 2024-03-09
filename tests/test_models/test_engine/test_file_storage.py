@@ -61,5 +61,28 @@ class Test_Storage(unittest.TestCase):
         """check if reload method is working"""
         self.assertIsNotNone(models.engine.file_storage.FileStorage().reload)
 
-if __name__ == '__main__':
-    unittest.main()
+    def test_docstring(self):
+        """ Test docstring """
+        self.assertIsNotNone(FileStorage.__doc__)
+
+    def test_documentation(self):
+        """ Test documentation, created and not empty """
+        self.assertTrue(FileStorage.all.__doc__)
+        self.assertIsNotNone(FileStorage.all.__doc__)
+        self.assertTrue(FileStorage.new.__doc__)
+        self.assertIsNotNone(FileStorage.new.__doc__)
+        self.assertTrue(FileStorage.save.__doc__)
+        self.assertIsNotNone(FileStorage.save.__doc__)
+        self.assertTrue(FileStorage.reload.__doc__)
+        self.assertIsNotNone(FileStorage.reload.__doc__)
+
+    def test_all(self):
+        """tests if all works in File Storage"""
+        storage = FileStorage()
+        obj = storage.all()
+        self.assertIsNotNone(obj)
+        self.assertEqual(type(obj), dict)
+        self.assertIs(obj, storage._FileStorage__objects)
+
+    if __name__ == '__main__':
+        unittest.main()
