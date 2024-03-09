@@ -38,7 +38,6 @@ class Test_Storage(unittest.TestCase):
         self.assertEqual(dict, type(storage.all()))
         self.assertIsNotNone(models.engine.file_storage.FileStorage().all)
 
-
     def test_new_method(self):
         b = BaseModel()
         storage.new(b)
@@ -53,16 +52,14 @@ class Test_Storage(unittest.TestCase):
         b = BaseModel()
         storage.new(b)
         storage.save()
-        with open("file.json", "r") as f:
-            save_t = f.read()
+        with open("file.json", "r") as fi:
+            save_t = fi.read()
             self.assertIn("BaseModel." + b.id, save_t)
         self.assertIsNotNone(models.engine.file_storage.FileStorage().save)
 
     def test_reload(self):
         """check if reload method is working"""
-
         self.assertIsNotNone(models.engine.file_storage.FileStorage().reload)
-
 
 if __name__ == '__main__':
     unittest.main()
