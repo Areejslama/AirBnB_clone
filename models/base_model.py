@@ -6,11 +6,14 @@ from uuid import uuid4
 import models
 
 class BaseModel:
-    """Define a class"""
+    """Define a basemodel class that used to
+    be a base for all classes in the console
+    """
     def __init__(self, *args, **kwargs):
+        """initialize args and kwargs"""
         if kwargs:
             kwargs.pop("__class__", None)
-        for key, value in kwargs.items():
+            for key, value in kwargs.items():
             if key == 'created_at' or key == 'updated_at':
                 obj = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
                 setattr(self, key, obj)
@@ -23,10 +26,12 @@ class BaseModel:
                 models.storage.new(self)
 
     def save(self):
+        """method to update an instance"""
         self.updated_at = datetime.now()
         models.storage.save()
 
     def to_dict(self):
+        """method to return a dictionary"""
         my_dict = {}
         for key, value in self.__dict__.items():
             if isinstance(value, datetime):
@@ -35,4 +40,5 @@ class BaseModel:
                 my_dict[key] = value
         return my_dict
     def __str__(self):
+        """method to return a string representaion of methods"""
         return "{} {} {}".format(type(self).__name__, self.id, self.__dict__)
