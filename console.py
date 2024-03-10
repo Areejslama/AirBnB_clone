@@ -46,7 +46,7 @@ class HBNBCommand(cmd.Cmd):
         my_command = self.parseline(line)[0]
         if my_command is None:
             print('** class name missing **')
-        elif my_command not in self.allowed_classes:
+        elif my_command not in self.my_classes:
             print("** class doesn't exist **")
         else:
             new_i = eval(my_command)()
@@ -64,7 +64,7 @@ class HBNBCommand(cmd.Cmd):
         elif args == '':
             print('** instance id missing **')
         else:
-            my_data = models.storage.all().get(command + '.' + arg)
+            my_data = models.storage.all().get(my_command + '.' + args)
             if my_data is None:
                 print('** no instance found **')
             else:
@@ -97,7 +97,7 @@ class HBNBCommand(cmd.Cmd):
             print([str(objs[obj]) for obj in objs])
         elif my_command in self.my_classes:
             keys = my_objs.keys()
-            print([str(objs[key]) for key in keys if key.startswith(command)])
+            print([str(my_objs[key]) for key in keys if key.startswith(my_command)])
         else:
             print("** class doesn't exist **")
 
@@ -121,7 +121,7 @@ class HBNBCommand(cmd.Cmd):
             elif arg_s == 3:
                 print('** value missing **')
             else:
-                arg[3] = self.analyze_parameter_value(args[3])
+                arg[3] = self.analyze_parameter_value(arg[3])
                 setattr(my_data, arg[2], arg[3])
                 setattr(my_data, 'updated_at', datetime.now())
                 models.storage.save()
