@@ -142,13 +142,11 @@ class HBNBCommand(cmd.Cmd):
         return [str(val) for key, val in objs.items()]
 
     def default(self, line):
-    """
-    handle entered commands
-    """
-    if '.' in line:
-        sp = re.split(r'\.|\(|\)', line)
-        cls_name = sp[0]
-        m_name = sp[1]
+        """handle entered commands"""
+        if '.' in line:
+            sp = re.split(r'\.|\(|\)', line)
+            cls_name = sp[0]
+            m_name = sp[1]
 
         if cls_name in self.my_classes:
             if m_name == 'all':
@@ -163,8 +161,7 @@ class HBNBCommand(cmd.Cmd):
                 self.do_destroy(cls_name + ' ' + c_id)
             else:
                 print("** class doesn't exist **")
-    else:
-        print("Command not recognized. Type 'help' for a list of available commands.")
+        return
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
