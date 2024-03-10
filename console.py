@@ -142,22 +142,29 @@ class HBNBCommand(cmd.Cmd):
         return [str(val) for key, val in objs.items()]
 
     def default(self, line):
-        """check entered command"""
-        if '.' in line:
-            sp = re.split(r'\.|\(|\)', line)
-            cls_name = sp[0]
-            m_name = sp[1]
+    """
+    handle entered commands
+    """
+    if '.' in line:
+        sp = re.split(r'\.|\(|\)', line)
+        cls_name = sp[0]
+        m_name = sp[1]
 
-            if cls_name in self.my_classes:
-                if m_name == 'all':
-                    print(self.get_objs(cls_name))
-                elif m_name == 'count':
-                    print(len(self.get_objs(cls_name)))
-                elif m_name == 'show':
-                    c_id = sp[2][1:-1]
-                    self.do_show(cls_name + ' ' + c_id)
-                elif m_name == 'destroy':
-                    c_id = sp[2][1:-1]
-                    self.do_destroy(cls_name + ' ' + c_id)
+        if cls_name in self.my_classes:
+            if m_name == 'all':
+                print(self.get_objs(cls_name))
+            elif m_name == 'count':
+                print(len(self.get_objs(cls_name)))
+            elif m_name == 'show':
+                c_id = sp[2][1:-1]
+                self.do_show(cls_name + ' ' + c_id)
+            elif m_name == 'destroy':
+                c_id = sp[2][1:-1]
+                self.do_destroy(cls_name + ' ' + c_id)
+            else:
+                print("** class doesn't exist **")
+    else:
+        print("Command not recognized. Type 'help' for a list of available commands.")
+
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
