@@ -38,6 +38,7 @@ class HBNBCommand(cmd.Cmd):
     
     def emptyline(self):
         """handle empty line"""
+        print()
         pass
 
     def do_create(self, line):
@@ -121,12 +122,12 @@ class HBNBCommand(cmd.Cmd):
             elif arg_s == 3:
                 print('** value missing **')
             else:
-                arg[3] = self.analyze_parameter_value(arg[3])
+                arg[3] = self.parameter_value(arg[3])
                 setattr(my_data, arg[2], arg[3])
                 setattr(my_data, 'updated_at', datetime.now())
                 models.storage.save()
 
-    def analyze_parameter_value(self, val):
+    def parameter_value(self, val):
         """Checks a parameter value for an update"""
         if val.isdigit():
             return int(val)
