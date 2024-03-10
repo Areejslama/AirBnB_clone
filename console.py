@@ -1,13 +1,9 @@
 #!/usr/bin/python3
-# -*- coding: utf-8 -*-
-"""Console Module
-This module controls all databases.
-Can create, modify and delete instances.
-"""
+"""represent Console Module"""
 
-
-from datetime import datetime
 import cmd
+from datetime import datetime
+import re
 import models
 from models.base_model import BaseModel
 from models.user import User
@@ -16,164 +12,132 @@ from models.city import City
 from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
-import re
 import shlex
 
 
 class HBNBCommand(cmd.Cmd):
-    """command processor class."""
-    prompt = '(hbnb) '
-    allowed_classes = ['BaseModel', 'User', 'State', 'City',
+    """processor class"""
+    prompt = "(hbnb) "
+    my_classes = ['BaseModel', 'City', 'State', 'User',
                        'Amenity', 'Place', 'Review']
 
     def do_quit(self, line):
-        """Quit command to exit the program.
-        """
+        """Quit command to exit the program"""
         return True
 
     def do_EOF(self, line):
-        """Quit command to exit the program.
-        """
+        """Quit command to exit the program"""
         return True
+    
+    def emptyline(self):
+        """handle empty lines"""
+        print()
+        pass
 
     def do_create(self, line):
-        """Creates a new instance of BaseModel.
-        """
-        command = self.parseline(line)[0]
-        if command is None:
+        """Creates an instance of Base"""
+        my_instance = self.parseline(line)[0]
+        if my_instance is None:
             print('** class name missing **')
-        elif command not in self.allowed_classes:
+        elif my_instance not in self.my_classes:
             print("** class doesn't exist **")
         else:
-            new_obj = eval(command)()
-            new_obj.save()
-            print(new_obj.id)
+            new = eval(my_instance)()
+            new.save()
+            print(new.id)
 
     def do_show(self, line):
-        """Prints the string representation of an instance
-based on the class name and id.
-        """
-        command = self.parseline(line)[0]
-        arg = self.parseline(line)[1]
-        if command is None:
+        """Prints the string representation"""
+        my_instance = self.parseline(line)[0]
+        my_arg = self.parseline(line)[1]
+        if my_instance is None:
             print('** class name missing **')
-        elif command not in self.allowed_classes:
+        elif my_instance not in self.my_classes:
             print("** class doesn't exist **")
-        elif arg == '':
+        elif my_arg == '':
             print('** instance id missing **')
         else:
-            inst_data = models.storage.all().get(command + '.' + arg)
-            if inst_data is None:
+            my_data = models.storage.all().get(my_instance + '.' + my_arg)
+            if my_data is None:
                 print('** no instance found **')
             else:
-                print(inst_data)
+                print(my_data)
 
     def do_destroy(self, line):
-        """Deletes an instance based on the class name and id.
-        """
-        command = self.parseline(line)[0]
-        arg = self.parseline(line)[1]
-        if command is None:
+        """Deletes an instance"""
+        my_instance = self.parseline(line)[0]
+        my_arg = self.parseline(line)[1]
+        if my_instance is None:
             print('** class name missing **')
-        elif command not in self.allowed_classes:
+        elif my_instance not in self.allowed_classes:
             print("** class doesn't exist **")
         elif arg == '':
             print('** instance id missing **')
         else:
-            key = command + '.' + arg
-            inst_data = models.storage.all().get(key)
-            if inst_data is None:
+            keys = my_instance + '.' + my_arg
+            my_data = models.storage.all().get(keys)
+            if my_data is None:
                 print('** no instance found **')
             else:
-                del models.storage.all()[key]
+                del models.storage.all()[keys]
                 models.storage.save()
 
     def do_all(self, line):
-        """Prints all string representation of all instances
-based or not on the class name.
-        """
-        command = self.parseline(line)[0]
-        objs = models.storage.all()
-        if command is None:
-            print([str(objs[obj]) for obj in objs])
-        elif command in self.allowed_classes:
-            keys = objs.keys()
-            print([str(objs[key]) for key in keys if key.startswith(command)])
+        """Prints all string representation"""
+        my_instance = self.parseline(line)[0]
+        my_obj = models.storage.all()
+        if my_instance is None:
+            print([str(my_obj[obj]) for obj in my_obj])
+        elif my_instance in self.my_classes:
+            ke = my_obj.key()
+            print([str(my_obj[ke]) for key in ke if key.startswith(my_instance)])
         else:
             print("** class doesn't exist **")
 
     def do_update(self, line):
-        """Updates an instance based on the class name and id
-by adding or updating attribute.
-        """
-        args = shlex.split(line)
-        args_size = len(args)
-        if args_size == 0:
+        """Updates an instance"""
+        my_args = shlex.split(line)
+        arg_s = len(my_args)
+        if args_s == 0:
             print('** class name missing **')
-        elif args[0] not in self.allowed_classes:
+        elif my_args[0] not in self.my_classes:
             print("** class doesn't exist **")
-        elif args_size == 1:
+        elif args_s == 1:
             print('** instance id missing **')
         else:
-            key = args[0] + '.' + args[1]
-            inst_data = models.storage.all().get(key)
-            if inst_data is None:
+            keys = my_args[0] + '.' + my_args[1]
+            my_data = models.storage.all().get(keys)
+            if my_data is None:
                 print('** no instance found **')
-            elif args_size == 2:
+            elif args_s == 2:
                 print('** attribute name missing **')
-            elif args_size == 3:
+            elif args_s == 3:
                 print('** value missing **')
             else:
-                args[3] = self.analyze_parameter_value(args[3])
-                setattr(inst_data, args[2], args[3])
-                setattr(inst_data, 'updated_at', datetime.now())
+                my_args[3] = self.value_of_parameter(my_args[3])
+                setattr(my_data, my_args[2], my_args[3])
+                setattr(my_data, 'updated_at', datetime.now())
                 models.storage.save()
 
-    def analyze_parameter_value(self, value):
-        """Checks a parameter value for an update
+    def value_of_parameter(self, value):
+        """Checks a parameter value for update"""
+        if v.isdigit():
+            return int(v)
+        elif v.replace('.', '', 1).isdigit():
+            return float(v)
 
-        Analyze if a parameter is a string that needs
-        convert to a float number or an integer number.
-
-        Args:
-            value: The value to analyze
-
-        """
-        if value.isdigit():
-            return int(value)
-        elif value.replace('.', '', 1).isdigit():
-            return float(value)
-
-        return value
+        return v
 
     def get_objects(self, instance=''):
-        """Gets the elements created by the console
+        """Gets the elements created by console"""
+        objs = models.storage.all()
 
-        This method takes care of obtaining the information
-        of all the instances created in the file `objects.json`
-        that is used as the storage engine.
+        if my_instance:
+            key = objs.key()
+            return [str(value) for key, value in objs.items()
+                    if key.startswith(my_instance)]
 
-        When an instance is sent as an argument, the function
-        takes care of getting only the instances that match the argument.
-
-        Args:
-            instance (:obj:`str`, optional): The instance to finds into
-                the objects.
-
-        Returns:
-            list: If the `instance` argument is not empty, it will search
-            only for objects that match the instance. Otherwise, it will show
-            all instances in the file where all objects are stored.
-
-        """
-        objects = models.storage.all()
-
-        if instance:
-            keys = objects.keys()
-            return [str(val) for key, val in objects.items()
-                    if key.startswith(instance)]
-
-        return [str(val) for key, val in objects.items()]
+        return [str(value) for key, value in objs.items()]
 
     def default(self, line):
         """
@@ -185,30 +149,21 @@ by adding or updating attribute.
 
         """
         if '.' in line:
-            splitted = re.split(r'\.|\(|\)', line)
-            class_name = splitted[0]
-            method_name = splitted[1]
+            split = re.split(r'\.|\(|\)', line)
+            c_name = split[0]
+            m_name = split[1]
 
-            if class_name in self.allowed_classes:
-                if method_name == 'all':
-                    print(self.get_objects(class_name))
-                elif method_name == 'count':
-                    print(len(self.get_objects(class_name)))
-                elif method_name == 'show':
-                    class_id = splitted[2][1:-1]
-                    self.do_show(class_name + ' ' + class_id)
-                elif method_name == 'destroy':
-                    class_id = splitted[2][1:-1]
-                    self.do_destroy(class_name + ' ' + class_id)
-
-    def emptyline(self):
-        """
-        When an empty line is entered in response to the prompt,
-        it won't repeat the last nonempty command entered.
-
-        """
-        pass
-
+            if c_name in self.my_classes:
+                if m_name == 'all':
+                    print(self.get_objs(c_name))
+                elif m_name == 'count':
+                    print(len(self.get_objs(class_name)))
+                elif m_name == 'show':
+                    c_id = split[2][1:-1]
+                    self.do_show(c_name + ' ' + c_id)
+                elif m_name == 'destroy':
+                    c_id = split[2][1:-1]
+                    self.do_destroy(c_name + ' ' + c_id)
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
