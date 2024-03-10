@@ -36,108 +36,124 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, line):
         """Creates an instance of Base"""
-        my_instance = self.parseline(line)[0]
-        if my_instance is None:
+        cls_name = self.parseline(line)[0]
+        if class_name is None:
             print('** class name missing **')
-        elif my_instance not in self.my_classes:
+            return
+        elif cls_name not in self.my_classes:
             print("** class doesn't exist **")
-        else:
-            new = eval(my_instance)()
-            new.save()
-            print(new.id)
+            return
+
+        try:
+            my_instance = getattr(models, cls_name)()
+            my_instance.save()
+            print(my_instance.id)
+        except Exception as e:
+            print(f"Error creating instance: {str(e)}")
 
     def do_show(self, line):
         """Prints the string representation"""
-        my_instance = self.parseline(line)[0]
-        my_arg = self.parseline(line)[1]
-        if my_instance is None:
+        cls_name = self.parseline(line)[:2]
+        inst_id = self.parseline(line)[:2]
+        if cls_name is None:
             print('** class name missing **')
-        elif my_instance not in self.my_classes:
+            return
+        elif cls_name not in self.my_classes:
             print("** class doesn't exist **")
-        elif my_arg == '':
+            return
+        elif inst_id is None:
             print('** instance id missing **')
+            return
+
+        obj = f"{cls_name}.{instance_id}"
+        m_instance = models.storage.all().get(obj)
+        if m_instance is None:
+            print('** no instance found **')
         else:
-            my_data = models.storage.all().get(my_instance + '.' + my_arg)
-            if my_data is None:
-                print('** no instance found **')
-            else:
-                print(my_data)
+            print(m_instance)
 
     def do_destroy(self, line):
         """Deletes an instance"""
-        my_instance = self.parseline(line)[0]
-        my_arg = self.parseline(line)[1]
-        if my_instance is None:
+        cls_name =  self.parseline(line)[:2]
+        inst_id = self.parseline(line)[:2]
+        if cls_name is None:
             print('** class name missing **')
-        elif my_instance not in self.allowed_classes:
+            return
+        elif cls_name not in self.my_classes:
             print("** class doesn't exist **")
-        elif arg == '':
+            return
+        elif inst_id is None:
             print('** instance id missing **')
-        else:
-            keys = my_instance + '.' + my_arg
-            my_data = models.storage.all().get(keys)
-            if my_data is None:
-                print('** no instance found **')
-            else:
-                del models.storage.all()[keys]
-                models.storage.save()
+            return
+
+        obj = f"{cls_name}.{inst_id}"
+        a_instances = models.storage.all()
+        if obj not in a_instances:
+            print('** no instance found **')
+            return
+
+        del a_instances[obj]
+        models.storage.save()
 
     def do_all(self, line):
         """Prints all string representation"""
-        my_instance = self.parseline(line)[0]
-        my_obj = models.storage.all()
-        if my_instance is None:
-            print([str(my_obj[obj]) for obj in my_obj])
-        elif my_instance in self.my_classes:
-            k = my_obj.k()
-            print([str(my_obj[key]) for key in k if key.startswith(my_instance)])
+        clsname = self.parseline(line)[0]
+        if class_name is None:
+            print([str(obj) for obj in models.storage.all().values()])
+        elif cls_name in self.my_classes:
+            inst = [str(obj) for obj in models.storage.all().values() if type(obj).__name__ == class_name]
+            print(inst)
         else:
             print("** class doesn't exist **")
 
     def do_update(self, line):
         """Updates an instance"""
         my_args = shlex.split(line)
-        arg_s = len(my_args)
-        if args_s == 0:
+        if len(my_args) < 1:
             print('** class name missing **')
+            return
         elif my_args[0] not in self.my_classes:
             print("** class doesn't exist **")
-        elif args_s == 1:
+            return
+        elif len(my_args) < 2:
             print('** instance id missing **')
-        else:
-            key = my_args[0] + '.' + my_args[1]
-            my_data = models.storage.all().get(key)
-            if my_data is None:
-                print('** no instance found **')
-            elif args_s == 2:
-                print('** attribute name missing **')
-            elif args_s == 3:
-                print('** value missing **')
-            else:
-                my_args[3] = self.value_of_parameter(my_args[3])
-                setattr(my_data, my_args[2], my_args[3])
-                setattr(my_data, 'updated_at', datetime.now())
-                models.storage.save()
+            return
+
+        obj = f"{my_args[0]}.{my_args[1]}"
+        a_instances = models.storage.all()
+        if obj not in all_instances:
+            print('** no instance found **')
+            return
+
+        inst = a_instances[obj]
+        if len(my_args) < 3:
+            print('** attribute name missing **')
+            return
+        elif len(my_args) < 4:
+            print('** value missing **')
+            return
+
+        setattr(inst, my_args[2], self.value_of_parameter(my_args[3]))
+        setattr(inst, 'updated_at', datetime.now())
+        models.storage.save()
 
     def value_of_parameter(self, val):
         """Checks a parameter value for update"""
-        if val.isdigit():
+        try:
             return int(val)
-        elif val.replace('.', '', 1).isdigit():
-            return float(val)
+        except ValueError:
+            try:
+                return float(val)
+            except ValueError:
+                return val
 
-        return val
-
-    def get_objs(self, my_instance=''):
+    def get_objs(self, class_name=''):
         """Gets the elements created by console"""
-        objs = models.storage.all()
-
-        if my_instance:
-            keyss = objs.keyss()
-            return [str(value) for key, value in objs.items()
-                    if key.startswith(my_instance)]
-
-        return [str(value) for key, value in objs.items()]
+        a_instances = models.storage.all()
+        if class_name is None:
+            return [str(obj) for obj in a_instances.values()]
+        else:
+            return [str(obj) for obj in a_instances.values() if type(obj).__name__ == class_name]
 
     def default(self, line):
         """
@@ -146,24 +162,22 @@ class HBNBCommand(cmd.Cmd):
             "<class name>.<method name>" or not,
         and links it to the corresponding method in case the
         class exists and the method belongs to the class.
-
         """
         if '.' in line:
-            split = re.split(r'\.|\(|\)', line)
+            spl = line.split('.')
             c_name = split[0]
-            m_name = split[1]
+            m_name = split[1].split('(')[0]
+            arg = split[1].split('(')[1].split(')')[0]
 
             if c_name in self.my_classes:
                 if m_name == 'all':
-                    print(self.get_objs(c_name))
+                    print(self.get_objs(class_name))
                 elif m_name == 'count':
                     print(len(self.get_objs(class_name)))
                 elif m_name == 'show':
-                    c_id = split[2][1:-1]
-                    self.do_show(c_name + ' ' + c_id)
+                    self.do_show(f"{class_name} {arg}")
                 elif m_name == 'destroy':
-                    c_id = split[2][1:-1]
-                    self.do_destroy(c_name + ' ' + c_id)
+                    self.do_destroy(f"{class_name} {arg}")
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
