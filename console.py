@@ -89,7 +89,7 @@ class HBNBCommand(cmd.Cmd):
         my_command = self.parseline(line)[0]
         my_objs = models.storage.all()
         if my_command is None:
-            print([str(objs[obj]) for obj in objs])
+            print([str(my_objs[obj]) for obj in my_objs])
         elif my_command in self.my_classes:
             keys = my_objs.keys()
             print([str(my_objs[key]) for key in keys if key.startswith(my_command)])
