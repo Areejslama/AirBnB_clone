@@ -175,9 +175,10 @@ class HBNBCommand(cmd.Cmd):
                 elif m_name == 'count':
                     print(len(self.get_objs(class_name)))
                 elif m_name == 'show':
-                    self.do_show(f"{class_name} {arg}")
+                     self.do_show(f"{class_name} {arg}")
                 elif m_name == 'destroy':
                     self.do_destroy(f"{class_name} {arg}")
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
