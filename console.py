@@ -7,15 +7,15 @@ Can create, modify and delete instances.
 
 
 from datetime import datetime
-import cmd
-import models
 from models.base_model import BaseModel
 from models.user import User
 from models.state import State
 from models.city import City
 from models.amenity import Amenity
+import models
 from models.place import Place
 from models.review import Review
+import cmd
 import re
 import shlex
 
@@ -35,6 +35,11 @@ class HBNBCommand(cmd.Cmd):
         """Quit command to exit the program.
         """
         return True
+    
+    def emptyline(self):
+        """handle empty lines"""
+        print()
+        pass
 
     def do_create(self, line):
         """Creates a new instance of BaseModel.
@@ -53,7 +58,7 @@ class HBNBCommand(cmd.Cmd):
         """Prints the string representation of an instance"""
         my_command = self.parseline(line)[0]
         args = self.parseline(line)[1]
-        if my_command is None:
+        if line is None:
             print('** class name missing **')
         elif my_command not in self.my_classes:
             print("** class doesn't exist **")
@@ -160,11 +165,6 @@ class HBNBCommand(cmd.Cmd):
                 elif m_name == 'destroy':
                     cls_id = sp[2][1:-1]
                     self.do_destroy(cls_name + ' ' + cls_id)
-        
-        def emptyline(self):
-            """handle empty lines"""
-            print()
-            pass
 
 
 if __name__ == '__main__':
