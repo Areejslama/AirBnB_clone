@@ -1,51 +1,34 @@
 #!/usr/bin/python3
-"""
-    test for user
-"""
+"""test for user"""
 import unittest
 from models.user import User
 from models.base_model import BaseModel
 
+class test_User(test_basemodel):
+    """ test user class """
 
-class test_User(unittest.TestCase):
-    """
-        User class tests
-    """
-    @classmethod
-    def setUpClass(cls):
-        """
-            setup
-        """
-        cls.dummy_user = User()
-        cls.dummy_user.email = "tests@test.com"
-        cls.dummy_user.password = "pass"
-        cls.dummy_user.first_name = "john"
-        cls.dummy_user.last_name = "doe"
+    def __init__(self, *args, **kwargs):
+        """init args and kwargs"""
+        super().__init__(*args, **kwargs)
+        self.name = "NAME"
+        self.value = name
 
-    @classmethod
-    def tearDownClass(cls):
-        """
-            tear down
-        """
-        del cls.dummy_user
+    def test_first(self):
+        """ test user firs name """
+        n = self.value()
+        self.assertEqual(type(n.first_name), str)
 
-    def test_inheritance(self):
-        """
-            test proper inheritance
-        """
-        self.assertIsInstance(self.dummy_user, BaseModel)
-        self.assertTrue(hasattr(self.dummy_user, "id"))
-        self.assertTrue(hasattr(self.dummy_user, "created_at"))
-        self.assertTrue(hasattr(self.dummy_user, "updated_at"))
+    def test_last(self):
+        """test user last name """
+        n = self.value()
+        self.assertEqual(type(n.last_name), str)
 
-    def test_attrs(self):
-        """
-            test attributes
-        """
-        self.assertTrue(hasattr(self.dummy_user, "email"))
-        self.assertTrue(hasattr(self.dummy_user, "password"))
-        self.assertTrue(hasattr(self.dummy_user, "first_name"))
-        self.assertTrue(hasattr(self.dummy_user, "last_name"))
+    def test_user_email(self):
+        """ test email"""
+        n = self.value()
+        self.assertEqual(type(n.email), str)
 
-if __name__ == "__main__":
-    unittest.main()
+    def test_use_password(self):
+        """ test user password """
+        n = self.value()
+        self.assertEqual(type(n.password), str)
