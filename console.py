@@ -1,9 +1,10 @@
 #!/usr/bin/python3
 """Represent a command interpreter"""
 import cmd
-import shlex
 from datetime import datetime
 import models
+import re
+import shlex
 from models.base_model import BaseModel
 from models.user import User
 from models.state import State
@@ -138,28 +139,27 @@ class HBNBCommand(cmd.Cmd):
         return [str(value) for key, value in obj.items()]
 
     def do_default(self, line):
-        """looks for entered commands"""
-        if '.' in l:
-            split = re.split(r'\.|\(|\)', l)
+        """Looks for entered commands"""
+        if '.' in line:
+            split = re.split(r'\.|\(|\)', line)
             c_name = split[0]
             m_name = split[1]
-
-        if c_name in self.my_classes:
-            if m_name == 'all':
-                print(self.get_obj(c_name))
-            elif m_name == 'count':
-                print(len(self.get_obj(c_name)))
-            elif m_name == 'show':
-                c_id = split[2][1:-1]
-                self.do_show(c_name + ' ' + c_id)
-            elif m_name == 'destroy':
-                c_id = split[2][1:-1]
-                self.do_destroy(c_name + ' ' + c_id)
+            if c_name in self.my_classes:
+                if m_name == 'all':
+                    print(self.get_obj(c_name))
+                elif m_name == 'count':
+                    print(len(self.get_obj(c_name)))
+                elif m_name == 'show':
+                    c_id = split[2][1:-1]
+                    self.do_show(c_name + ' ' + c_id)
+                elif m_name == 'destroy':
+                    c_id = split[2][1:-1]
+                    self.do_destroy(c_name + ' ' + c_id)
     def do_count(self, arg):
-        """ Count instance of class"""
-        arg_sp = shlex.split(arg)
+        """Count instances of a class"""
+        args_split = shlex.split(arg)
         cou = 0
-        for obj in storage.all().values():
+        for obj in models.storage.all().values():
             if args_split[0] == obj.__class__.__name__:
                 cou += 1
         print(cou)
