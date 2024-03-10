@@ -142,29 +142,22 @@ class HBNBCommand(cmd.Cmd):
         return [str(val) for key, val in objs.items()]
 
     def default(self, line):
-        """Check entered command"""
-        p = line.split()
-        if len(p) >= 2:
-            cls_name = parts[0]
-            m_name = parts[1]
+        """check entered command"""
+        if '.' in line:
+            sp = re.split(r'\.|\(|\)', line)
+            cls_name = sp[0]
+            m_name = sp[1]
 
-        if cls_name in self.my_classes:
-            if m_name == 'all':
-                print(self.get_objs(cls_name))
-            elif m_name == 'count':
-                print(len(self.get_objs(cls_name)))
-            elif m_name == 'show':
-                if len(p) >= 3:
-                    cls_id = p[2]
-                    self.do_show(cls_name + ' ' + cls_id)
-                else:
-                    print('** instance id missing **')
-            elif m_name == 'destroy':
-                    if len(p) >= 3:
-                        cls_id = p[2]
-                        self.do_destroy(cls_name + ' ' + cls_id)
-                    else:
-                        print('** instance id missing **')
-
+            if cls_name in self.my_classes:
+                if m_name == 'all':
+                    print(self.get_objs(cls_name))
+                elif m_name == 'count':
+                    print(len(self.get_objs(cls_name)))
+                elif m_name == 'show':
+                    c_id = sp[2][1:-1]
+                    self.do_show(cls_name + ' ' + c_id)
+                elif m_name == 'destroy':
+                    c_id = sp[2][1:-1]
+                    self.do_destroy(cls_name + ' ' + c_id)
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
