@@ -1,6 +1,6 @@
 #!/usr/bin/python3
-
 """test for city"""
+
 from tests.test_models.test_base_model import TestBaseModel
 from models.city import City
 
@@ -13,6 +13,7 @@ class test_User(TestBaseModel):
         super().__init__(*args, **kwargs)
         self.name = "City"
         self.value = City
+
     def test_city_id(self):
         """test city value """
         n = self.value()

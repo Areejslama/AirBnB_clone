@@ -4,6 +4,7 @@
 from models.user import User
 from tests.test_models.test_base_model import TestBaseModel
 
+
 class test_User(TestBaseModel):
     """ test user class """
 

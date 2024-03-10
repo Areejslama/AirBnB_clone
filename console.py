@@ -19,8 +19,15 @@ import shlex
 class HBNBCommand(cmd.Cmd):
     """command processor class."""
     prompt = '(hbnb) '
-    my_classes = ['BaseModel', 'User', 'State', 'City',
-                       'Amenity', 'Place', 'Review']
+    my_classes = [
+            "BaseModel",
+            "User",
+            "State",
+            "City",
+            "Amenity",
+            "Place",
+            "Review"
+            ]
 
     def do_quit(self, line):
         """Quit command to exit the program."""
@@ -29,7 +36,7 @@ class HBNBCommand(cmd.Cmd):
     def do_EOF(self, line):
         """Quit command to exit the program"""
         return True
-    
+
     def emptyline(self):
         """handle empty lines"""
         print()
@@ -92,7 +99,10 @@ class HBNBCommand(cmd.Cmd):
             print([str(my_objs[obj]) for obj in my_objs])
         elif my_command in self.my_classes:
             keys = my_objs.keys()
-            print([str(my_objs[key]) for key in keys if key.startswith(my_command)])
+            print(
+                    [str(my_objs[key]) for key in keys
+                        if key.startswith(my_command)]
+                )
         else:
             print("** class doesn't exist **")
 
@@ -135,10 +145,10 @@ class HBNBCommand(cmd.Cmd):
         objs = models.storage.all()
 
         if an_instance:
-            return [str(val) for key, val in objs.items() if key.startswith(an_instance)]
+            return [str(val) for key, val in objs.items()
+                    if key.startswith(an_instance)]
 
         return [str(val) for val in objs.values()]
-
 
     def default(self, line):
         """handle entered commands"""
@@ -162,5 +172,5 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
         return
 
-if __name__ == '__main__':
-    HBNBCommand().cmdloop()
+    if __name__ == '__main__':
+        HBNBCommand().cmdloop()
