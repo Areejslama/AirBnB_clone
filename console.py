@@ -45,7 +45,7 @@ class HBNBCommand(cmd.Cmd):
         """Creates a new instance of BaseModel.
         """
         my_command = self.parseline(line)[0]
-        if my_command is None:
+        if not my_command:
             print('** class name missing **')
         elif my_command not in self.my_classes:
             print("** class doesn't exist **")
