@@ -23,7 +23,7 @@ import shlex
 class HBNBCommand(cmd.Cmd):
     """command processor class."""
     prompt = '(hbnb) '
-    allowed_classes = ['BaseModel', 'User', 'State', 'City',
+    my_classes = ['BaseModel', 'User', 'State', 'City',
                        'Amenity', 'Place', 'Review']
 
     def do_quit(self, line):
