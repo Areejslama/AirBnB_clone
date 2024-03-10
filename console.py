@@ -1,9 +1,5 @@
 #!/usr/bin/python3
-# -*- coding: utf-8 -*-
-"""Console Module
-This module controls all databases.
-Can create, modify and delete instances.
-"""
+"""Console Module"""
 
 
 from datetime import datetime
@@ -27,13 +23,11 @@ class HBNBCommand(cmd.Cmd):
                        'Amenity', 'Place', 'Review']
 
     def do_quit(self, line):
-        """Quit command to exit the program.
-        """
+        """Quit command to exit the program."""
         return True
 
     def do_EOF(self, line):
-        """Quit command to exit the program.
-        """
+        """Quit command to exit the program"""
         return True
     
     def emptyline(self):
@@ -141,31 +135,36 @@ class HBNBCommand(cmd.Cmd):
         objs = models.storage.all()
 
         if an_instance:
-            keys = objects.keys()
+            keys = objs.keys()
             return [str(val) for key, val in objs.items()
                     if key.startswith(an_instance)]
 
         return [str(val) for key, val in objs.items()]
 
     def default(self, line):
-        """check entered command"""
-        if '.' in line:
-            sp = re.split(r'\.|\(|\)', line)
-            cls_name = sp[0]
-            m_name = sp[1]
+        """Check entered command"""
+        p = line.split()
+        if len(p) >= 2:
+            cls_name = parts[0]
+            m_name = parts[1]
 
-            if cls_name in self.my_classes:
-                if m_name == 'all':
-                    print(self.get_objs(cls_name))
-                elif m_name == 'count':
-                    print(len(self.get_objs(cls_name)))
-                elif m_name == 'show':
-                    cls_id = sp[2][1:-1]
+        if cls_name in self.my_classes:
+            if m_name == 'all':
+                print(self.get_objs(cls_name))
+            elif m_name == 'count':
+                print(len(self.get_objs(cls_name)))
+            elif m_name == 'show':
+                if len(p) >= 3:
+                    cls_id = p[2]
                     self.do_show(cls_name + ' ' + cls_id)
-                elif m_name == 'destroy':
-                    cls_id = sp[2][1:-1]
-                    self.do_destroy(cls_name + ' ' + cls_id)
-
+                else:
+                    print('** instance id missing **')
+            elif m_name == 'destroy':
+                    if len(p) >= 3:
+                        cls_id = p[2]
+                        self.do_destroy(cls_name + ' ' + cls_id)
+                    else:
+                        print('** instance id missing **')
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
