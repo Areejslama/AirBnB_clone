@@ -1,17 +1,17 @@
 #!/usr/bin/python3
 """ test place """
-from tests.test_models.test_base_model import test_basemodel
+from tests.test_models.test_base_model import TestBaseModel
 from models.place import Place
 
 
-class test_Place(test_basemodel):
+class test_Place(TestBaseModel):
     """test place """
 
     def __init__(self, *args, **kwargs):
         """ """
         super().__init__(*args, **kwargs)
-        self.name = "Pl"
-        self.value = Pl
+        self.name = "Place"
+        self.value = Place
 
     def test_city_id(self):
         """test city """
@@ -33,15 +33,15 @@ class test_Place(test_basemodel):
         n = self.value()
         self.assertEqual(type(n.description), str)
 
-    def test_rooms(self):
+    def test_number_rooms(self):
         """ test rooms """
         n = self.value()
-        self.assertEqual(type(n.rooms), int)
+        self.assertEqual(type(n.number_rooms), int)
 
-    def test_bathrooms(self):
+    def test_number_bathrooms(self):
         """test number """
         n = self.value()
-        self.assertEqual(type(n.bathrooms), int)
+        self.assertEqual(type(n.number_bathrooms), int)
 
     def test_max_guest(self):
         """test guest """

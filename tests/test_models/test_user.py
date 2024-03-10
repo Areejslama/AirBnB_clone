@@ -1,17 +1,17 @@
 #!/usr/bin/python3
 """test for user"""
-import unittest
-from models.user import User
-from models.base_model import BaseModel
 
-class test_User(test_basemodel):
+from models.user import User
+from tests.test_models.test_base_model import TestBaseModel
+
+class test_User(TestBaseModel):
     """ test user class """
 
     def __init__(self, *args, **kwargs):
         """init args and kwargs"""
         super().__init__(*args, **kwargs)
-        self.name = "NAME"
-        self.value = name
+        self.name = "User"
+        self.value = User
 
     def test_first(self):
         """ test user firs name """

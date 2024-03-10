@@ -1,18 +1,18 @@
 #!/usr/bin/python3
 
 """test for city"""
-from models.base_model import BaseModel
+from tests.test_models.test_base_model import TestBaseModel
 from models.city import City
 
 
-class test_User(test_basemodel):
+class test_User(TestBaseModel):
     """ test user class """
 
     def __init__(self, *args, **kwargs):
         """init args and kwargs"""
         super().__init__(*args, **kwargs)
-        self.name = "Paris"
-        self.value = paris
+        self.name = "City"
+        self.value = City
     def test_city_id(self):
         """test city value """
         n = self.value()
