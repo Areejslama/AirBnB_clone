@@ -59,7 +59,7 @@ class HBNBCommand(cmd.Cmd):
         args = self.parseline(line)[1]
         if my_command is None:
             print('** class name missing **')
-        elif my_command not in self.allowed_classes:
+        elif my_command not in self.my_classes:
             print("** class doesn't exist **")
         elif args == '':
             print('** instance id missing **')
@@ -76,7 +76,7 @@ class HBNBCommand(cmd.Cmd):
         args = self.parseline(line)[1]
         if my_command is None:
             print('** class name missing **')
-        elif my_command not in self.allowed_classes:
+        elif my_command not in self.my_classes:
             print("** class doesn't exist **")
         elif args == '':
             print('** instance id missing **')
@@ -95,7 +95,7 @@ class HBNBCommand(cmd.Cmd):
         my_objs = models.storage.all()
         if my_command is None:
             print([str(objs[obj]) for obj in objs])
-        elif my_command in self.allowed_classes:
+        elif my_command in self.my_classes:
             keys = my_objs.keys()
             print([str(objs[key]) for key in keys if key.startswith(command)])
         else:
