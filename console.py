@@ -35,11 +35,6 @@ class HBNBCommand(cmd.Cmd):
         """Quit command to exit the program.
         """
         return True
-    
-    def emptyline(self):
-        """handle empty line"""
-        print()
-        pass
 
     def do_create(self, line):
         """Creates a new instance of BaseModel.
@@ -165,6 +160,11 @@ class HBNBCommand(cmd.Cmd):
                 elif m_name == 'destroy':
                     cls_id = sp[2][1:-1]
                     self.do_destroy(cls_name + ' ' + cls_id)
+        
+        def emptyline(self):
+            """handle empty lines"""
+            print()
+            pass
 
 
 if __name__ == '__main__':
