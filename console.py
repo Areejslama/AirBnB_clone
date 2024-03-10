@@ -89,8 +89,8 @@ class HBNBCommand(cmd.Cmd):
         if my_instance is None:
             print([str(my_obj[obj]) for obj in my_obj])
         elif my_instance in self.my_classes:
-            ke = my_obj.key()
-            print([str(my_obj[ke]) for key in ke if key.startswith(my_instance)])
+            k = my_obj.k()
+            print([str(my_obj[key]) for key in k if key.startswith(my_instance)])
         else:
             print("** class doesn't exist **")
 
@@ -105,8 +105,8 @@ class HBNBCommand(cmd.Cmd):
         elif args_s == 1:
             print('** instance id missing **')
         else:
-            keys = my_args[0] + '.' + my_args[1]
-            my_data = models.storage.all().get(keys)
+            key = my_args[0] + '.' + my_args[1]
+            my_data = models.storage.all().get(key)
             if my_data is None:
                 print('** no instance found **')
             elif args_s == 2:
@@ -119,7 +119,7 @@ class HBNBCommand(cmd.Cmd):
                 setattr(my_data, 'updated_at', datetime.now())
                 models.storage.save()
 
-    def value_of_parameter(self, value):
+    def value_of_parameter(self, val):
         """Checks a parameter value for update"""
         if val.isdigit():
             return int(val)
@@ -133,7 +133,7 @@ class HBNBCommand(cmd.Cmd):
         objs = models.storage.all()
 
         if my_instance:
-            key = objs.key()
+            keyss = objs.keyss()
             return [str(value) for key, value in objs.items()
                     if key.startswith(my_instance)]
 
