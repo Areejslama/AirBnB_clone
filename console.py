@@ -137,7 +137,7 @@ class HBNBCommand(cmd.Cmd):
 
         return [str(value) for key, value in obj.items()]
 
-    def default(self, line):
+    def do_default(self, line):
         """looks for entered commands"""
         if '.' in l:
             split = re.split(r'\.|\(|\)', l)
@@ -155,6 +155,14 @@ class HBNBCommand(cmd.Cmd):
             elif m_name == 'destroy':
                 c_id = split[2][1:-1]
                 self.do_destroy(c_name + ' ' + c_id)
+    def do_count(self, arg):
+        """ Count instance of class"""
+        arg_sp = shlex.split(arg)
+        cou = 0
+        for obj in storage.all().values():
+            if args_split[0] == obj.__class__.__name__:
+                cou += 1
+        print(cou)
 
     if __name__ == "__main__":
         HBNBCommand().cmdloop()
