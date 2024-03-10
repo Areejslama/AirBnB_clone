@@ -135,11 +135,10 @@ class HBNBCommand(cmd.Cmd):
         objs = models.storage.all()
 
         if an_instance:
-            keys = objs.keys()
-            return [str(val) for key, val in objs.items()
-                    if key.startswith(an_instance)]
+            return [str(val) for key, val in objs.items() if key.startswith(an_instance)]
 
-        return [str(val) for key, val in objs.items()]
+        return [str(val) for val in objs.values()]
+
 
     def default(self, line):
         """handle entered commands"""
