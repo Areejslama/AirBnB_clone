@@ -58,7 +58,7 @@ class HBNBCommand(cmd.Cmd):
         """Prints the string representation of an instance"""
         my_command = self.parseline(line)[0]
         args = self.parseline(line)[1]
-        if line is None:
+        if not my_command:
             print('** class name missing **')
         elif my_command not in self.my_classes:
             print("** class doesn't exist **")
