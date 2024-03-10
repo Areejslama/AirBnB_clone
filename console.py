@@ -121,14 +121,14 @@ class HBNBCommand(cmd.Cmd):
 
     def value_of_parameter(self, value):
         """Checks a parameter value for update"""
-        if v.isdigit():
-            return int(v)
-        elif v.replace('.', '', 1).isdigit():
-            return float(v)
+        if val.isdigit():
+            return int(val)
+        elif val.replace('.', '', 1).isdigit():
+            return float(val)
 
-        return v
+        return val
 
-    def get_objects(self, instance=''):
+    def get_objs(self, my_instance=''):
         """Gets the elements created by console"""
         objs = models.storage.all()
 
