@@ -172,5 +172,5 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
         return
 
-    if __name__ == '__main__':
-        HBNBCommand().cmdloop()
+if __name__ == '__main__':
+    HBNBCommand().cmdloop()
