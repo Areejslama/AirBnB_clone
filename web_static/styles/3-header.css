@@ -1,10 +1,9 @@
 header{
-	Background-color: white;
+	Background: white url(../images/logo.png);
 	height: 70px;
 	width: 100%;
 	border-bottom: 1px #CCCCCC;
-	align-items: center;
-	display:flex;
-	flex-direction: column;
-	justify-content: center;
+	Background-position: 20px center;
+	Background-repeat: no-repeat;
+	
 }
