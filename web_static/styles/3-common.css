@@ -1,5 +1,5 @@
-html,body{
-	height: 100%;
+html{
+	position: relative;
 }
 body{
 	margin: 0px;
@@ -8,10 +8,7 @@ body{
 	font-size: 14px;
 	font-family: Circular,"Helvetica Neue",Helvetica,Arial,sans-serif;
 	display: flex;
+	justify-content: space-between;
+	min-height: 100vh;
 	flex-direction: column;
-}
-.container{
-	width: 100%;
-	max-width: 1000px;
-	flex: 1 0 auto;
 }

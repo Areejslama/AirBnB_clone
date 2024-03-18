@@ -9,3 +9,7 @@ footer{
 	justify-content: center;
 	bottom: 0;
 }
+footer p{
+	text-align:center;
+	color:#484848
+}
